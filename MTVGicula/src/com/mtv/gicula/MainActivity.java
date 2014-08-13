@@ -9,12 +9,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.mtv.gicula.utils.NetworkUtils;
 
@@ -143,12 +145,29 @@ public class MainActivity extends ActionBarActivity {
 		}
 	}
 
+	private boolean doubleBackToExitPressedOnce = false;
+
 	@Override
 	public void onBackPressed() {
 		if (wv != null && wv.canGoBack()) {
 			wv.goBack();
 		} else {
-			super.onBackPressed();
+			if (doubleBackToExitPressedOnce) {
+				super.onBackPressed();
+				return;
+			}
+
+			this.doubleBackToExitPressedOnce = true;
+			Toast.makeText(this, "Bấm Back lần nữa để thoát!",
+					Toast.LENGTH_SHORT).show();
+
+			new Handler().postDelayed(new Runnable() {
+
+				@Override
+				public void run() {
+					doubleBackToExitPressedOnce = false;
+				}
+			}, 2000);
 		}
 
 	}
