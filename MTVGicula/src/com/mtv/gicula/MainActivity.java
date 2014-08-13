@@ -6,11 +6,13 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -18,17 +20,22 @@ import com.mtv.gicula.utils.NetworkUtils;
 
 public class MainActivity extends ActionBarActivity {
 	private static final String TEL_PREFIX = "tel:";
-	
-	private static final String HTML = "www.gicula.com";
+
+	private static final String HTML = "http://www.gicula.com";
 
 	private WebView wv;
-	
+
 	private String mimeType = "text/html";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.fragment_main);
+		loadWebsite();
+	}
+
+	private void loadWebsite() {
 		wv = (WebView) findViewById(R.id.webview);
 		wv.setWebViewClient(new CustomWebViewClient());
 		wv.getSettings().setLoadsImagesAutomatically(true);
@@ -52,6 +59,12 @@ public class MainActivity extends ActionBarActivity {
 			showAboutUs();
 			return true;
 		}
+
+		if (id == R.id.action_refresh) {
+			loadWebsite();
+			return true;
+		}
+
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -90,14 +103,15 @@ public class MainActivity extends ActionBarActivity {
 			builder = new Builder(this);
 			builder.setTitle(getString(R.string.thong_bao));
 			builder.setMessage(getString(R.string.check_internet_msg));
-			builder.setPositiveButton(getString(R.string.ok), new OnClickListener() {
+			builder.setPositiveButton(getString(R.string.ok),
+					new OnClickListener() {
 
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					dialog.dismiss();
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.dismiss();
 
-				}
-			});
+						}
+					});
 			Dialog dialog = builder.create();
 			dialog.show();
 		}
@@ -115,6 +129,28 @@ public class MainActivity extends ActionBarActivity {
 			}
 			return false;
 		}
+
+		@Override
+		public void onPageFinished(WebView view, String url) {
+			super.onPageFinished(view, url);
+			setProgressBarIndeterminateVisibility(false);
+		}
+
+		@Override
+		public void onPageStarted(WebView view, String url, Bitmap favicon) {
+			super.onPageStarted(view, url, favicon);
+			setProgressBarIndeterminateVisibility(true);
+		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (wv != null && wv.canGoBack()) {
+			wv.goBack();
+		} else {
+			super.onBackPressed();
+		}
+
 	}
 
 	@Override
