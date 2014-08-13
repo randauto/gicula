@@ -158,7 +158,7 @@ public class MainActivity extends ActionBarActivity {
 			}
 
 			this.doubleBackToExitPressedOnce = true;
-			Toast.makeText(this, "Bấm Back lần nữa để thoát!",
+			Toast.makeText(this, getString(R.string.back_again),
 					Toast.LENGTH_SHORT).show();
 
 			new Handler().postDelayed(new Runnable() {
