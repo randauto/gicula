@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">MTV Gicula</string>
+    <string name="about_us"> Bản quyền thuộc Công ty TNHH MTV Gicula. Trụ sở : Số 21, Lô B28, Khu Đô thị Minh Phương - Minh Phương - Việt Trì - Phú Thọ
+Điện thoại: (0210) 6.25.25.26  - Fax: (0210) 6.25.25.26 .Email: gicula@gmail.com Website: www.gicula.com. \n Giấy phép thiết lập số 140/GP-TTĐT do Cục Quản lý Phát thanh, Truyền hình và Thông tin Điện tử - Bộ Thông tin và Truyền Thông cấp ngày 26/07/2011.</string>
+    <string name="gioithieu">Giới thiệu</string>
+    <string name="thong_bao">Thông báo</string>
+    <string name="check_internet_msg">Vui lòng kiểm tra lại kết nối mạng!</string>
+    <string name="ok">OK</string>
+
+</resources>
