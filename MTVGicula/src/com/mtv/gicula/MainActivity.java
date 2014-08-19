@@ -23,11 +23,9 @@ import com.mtv.gicula.utils.NetworkUtils;
 public class MainActivity extends ActionBarActivity {
 	private static final String TEL_PREFIX = "tel:";
 
-	private static final String HTML = "http://www.gicula.com";
+	private static final String HTML = "http://www.gicula.vn";
 
 	private WebView wv;
-
-	private String mimeType = "text/html";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +40,6 @@ public class MainActivity extends ActionBarActivity {
 		wv.setWebViewClient(new CustomWebViewClient());
 		wv.getSettings().setLoadsImagesAutomatically(true);
 		wv.getSettings().setJavaScriptEnabled(true);
-		// wv.loadData(HTML, mimeType, Encoding.UTF_8.toString());
 		wv.loadUrl(HTML);
 	}
 
