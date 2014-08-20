@@ -1,4 +1,10 @@
-﻿App name: Gicula.
+﻿Trang quản lý ứng dụng:
+https://play.google.com/apps/publish/
+Thông tin đăng nhập dựa trên tài khoản Gmail gicula@gmail.com
+
+--------------------------------------------------------------
+
+App name: Gicula.
 
 Description:
 
@@ -6,3 +12,5 @@ Gicula là ứng dụng cho phép bạn tổng hợp các thông tin về bất 
 Ứng dụng Gicula được phát triển bởi Công ty TNHH MTV Gicula.
 Hi vọng sẽ mang lại cho quý khách hàng những lợi ích thiết thực, những thông tin đáng quý trong lĩnh vực nhà đất, 
 truyền thông và quảng cáo mà mình quan tâm.
+
+--------------------------------------------------------------
