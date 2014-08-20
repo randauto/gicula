@@ -1,0 +1,8 @@
+﻿App name: Gicula.
+
+Description:
+
+Gicula là ứng dụng cho phép bạn tổng hợp các thông tin về bất động sản một các nhanh chóng, chính xác nhất.
+Ứng dụng Gicula được phát triển bởi Công ty TNHH MTV Gicula.
+Hi vọng sẽ mang lại cho quý khách hàng những lợi ích thiết thực, những thông tin đáng quý trong lĩnh vực nhà đất, 
+truyền thông và quảng cáo mà mình quan tâm.
