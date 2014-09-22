@@ -11,9 +11,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -21,6 +24,10 @@ import android.widget.Toast;
 import com.mtv.gicula.utils.NetworkUtils;
 
 public class MainActivity extends ActionBarActivity {
+	private ValueCallback<Uri> mUploadMessage;
+
+	private final static int FILECHOOSER_RESULTCODE = 1;
+
 	private static final String TEL_PREFIX = "tel:";
 
 	private static final String HTML = "http://www.gicula.vn";
@@ -38,9 +45,72 @@ public class MainActivity extends ActionBarActivity {
 	private void loadWebsite() {
 		wv = (WebView) findViewById(R.id.webview);
 		wv.setWebViewClient(new CustomWebViewClient());
-		wv.getSettings().setLoadsImagesAutomatically(true);
+		wv.setWebChromeClient(new CustomChromeClient());
+		wv.getSettings().setUseWideViewPort(true);
 		wv.getSettings().setJavaScriptEnabled(true);
-		wv.loadUrl(HTML);
+		wv.getSettings().setAllowFileAccess(true);
+		wv.post(new Runnable() {
+
+			@Override
+			public void run() {
+				wv.loadUrl(HTML);
+			}
+		});
+	}
+
+	private class CustomChromeClient extends WebChromeClient {
+		// For Android < 3.0
+		@SuppressWarnings("unused")
+		public void openFileChooser(ValueCallback<Uri> uploadMsg) {
+
+			mUploadMessage = uploadMsg;
+			Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+			i.setType("image/*");
+			i.addCategory(Intent.CATEGORY_OPENABLE);
+			MainActivity.this.startActivityForResult(i, FILECHOOSER_RESULTCODE);
+
+		}
+
+		// For Android 3.0+
+		@SuppressWarnings("unused")
+		public void openFileChooser(ValueCallback<Uri> uploadMsg,
+				String acceptType) {
+			mUploadMessage = uploadMsg;
+			Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+			i.setType("*/*");
+			i.addCategory(Intent.CATEGORY_OPENABLE);
+			MainActivity.this.startActivityForResult(i, FILECHOOSER_RESULTCODE);
+		}
+
+		// For Android 4.1
+		@SuppressWarnings("unused")
+		public void openFileChooser(ValueCallback<Uri> uploadMsg,
+				String acceptType, String capture) {
+			mUploadMessage = uploadMsg;
+			Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+			i.setType("image/*");
+			i.addCategory(Intent.CATEGORY_OPENABLE);
+			MainActivity.this.startActivityForResult(i, FILECHOOSER_RESULTCODE);
+
+		}
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		if (requestCode == FILECHOOSER_RESULTCODE) {
+			if (null == mUploadMessage) {
+				Log.e("uload message null", "nul roi ne");
+				return;
+			}
+
+			Uri result = intent == null || resultCode != RESULT_OK ? null
+					: intent.getData();
+			mUploadMessage.onReceiveValue(result);
+			mUploadMessage = null;
+		} else {
+			mUploadMessage.onReceiveValue(null);
+			mUploadMessage = null;
+		}
 	}
 
 	@Override
@@ -171,11 +241,8 @@ public class MainActivity extends ActionBarActivity {
 
 	@Override
 	public void onDestroy() {
+		Log.e("xxxxx", "destroy");
 		builder = null;
-		if (wv != null) {
-			wv.stopLoading();
-			wv = null;
-		}
 		super.onDestroy();
 	}
 
